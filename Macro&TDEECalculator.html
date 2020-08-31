@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<script src ="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+<style type = "text/css">
+.button
+{
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px 25px;
+  font-family: inherit;
+  cursor: pointer;
+  font-size: 15px;
+  text-align: center;
+  text-decoration: none;
+  background-clip: padding-box;
+  border: 1px solid;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.09), 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.09), 0px 1px 1px rgba(0, 0, 0, 0.2);
+  color: white;
+  text-shadow: 0 0 2px rgba(0, 0, 0, .7);
+  background-color: #303030;
+  border-color: #1c1c1c #202020 #222;
+  background-image: -webkit-linear-gradient(top, #8e8e8e, #434343);
+  background-image: -moz-linear-gradient(top, #8e8e8e, #434343);
+  background-image: -o-linear-gradient(top, #8e8e8e, #434343);
+  background-image: linear-gradient(to bottom, #8e8e8e, #434343);
+  border-radius:100em!important;
+}
+.button:hover {
+  background-color: #313131;
+  background-image: -webkit-linear-gradient(top, #7b7b7b, #2a2a2a);
+  background-image: -moz-linear-gradient(top, #7b7b7b, #2a2a2a);
+  background-image: -o-linear-gradient(top, #7b7b7b, #2a2a2a);
+  background-image: linear-gradient(to bottom, #7b7b7b, #2a2a2a);
+}
+table
+{
+  border:2px groove black;
+  border-radius:5px;
+  font-family:Verdana;
+  text-align:center;
+  background-image: linear-gradient(90deg, #B4B1B1, #DFD9D9);
+
+}
+input, select
+{
+	border:1px groove black;
+	border-radius:10px;
+}
+a{
+	color:black;
+	
+}
+a:visited{
+	color:black;
+}
+a:hover{
+	color:#8e8e8e;
+}
+p
+{
+	color:black;
+	font-family:Arial, Helvetica, sans-serif;
+}
+h2
+{
+	color:black;
+	font-family:Arial, Helvetica, sans-serif;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #353232;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #353232;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #353232;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #353232;
+}
+</style>
+</head>
+<body>
+	<div id = "widget" style = "width:150px;">
+		<table>
+			<tr>
+				<td colspan = "2"> 
+				<img colspan = "2" src =""/>
+				<strong><h2>Automated Macro Calculator</h2></strong>
+				<p colspan = "2" style = "font-size:15px;">Instant Ketogenic Macros at your fingertips!</p>
+				
+	
+		
+			</td>
+			
+			</tr>
+			
+			<tr>
+				<td>
+					<strong><p>Gender</p></strong>
+				</td>
+				<td align = "left">
+						<select id = "gender">
+							<option value="male">Male</option>
+							<option value="female">Female</option>
+						</select>
+						
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<td>
+					<strong><p>Age</p></strong>
+				</td>
+				<td align = "left">
+					<input type="text" name="Age" class="inputbox" >
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<strong><p>Weight</p></strong>
+				</td>
+				<td align = "left">
+					<input type="text" name="weight" class="inputbox" placeholder = "pounds" >
+				</td>
+			</tr>
+			
+			<tr>
+			<td>
+					<strong><p>Height</p></strong>
+				</td>
+				<td align = "left">
+					<input style = "width:15%;" type="text" name="Height1" class="inputbox" placeholder = "&nbsp;ft" >
+					<input style = "width:15%;" type="text" name="Height2" class="inputbox" placeholder = "&nbsp;in" >
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<strong><p>Body fat %</p></strong>
+				</td>
+				<td align = "left">
+					<input type="text" name="bodyfat" class="inputbox" >
+					<button id = "showBodyFat" onclick = "openBodyFat()">?</button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong><p>Email</p></strong>
+				</td>
+				<td align = "left">
+					<input type = "text" name = "email" class="inputbox">
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<strong><p>Activity Level</p></strong>
+				</td>
+				<td align = "left">
+					<select id = "activitylevel">
+						<option value="1">Sedentary (office job)</option>
+						<option value="2">Light exercise(1-2 days/week)</option>
+						<option value="3">Moderate exercise(3-5 days/week)</option>
+						<option value="4">Heavy exercise(6-7 days/week)</option>
+						<option value="5">Athletic(2X per day)</option>
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan = "2">
+					<input type="button" class = "button" id ="calculate" onclick = "calculate()" value = "Calculate!">
+				</td>
+			</tr>
+			<tr>
+				<td colspan = "2">
+					<em><p style = "font-size:14px;" id ="emailNotification">Personalized Macros have been delivered to your inbox</p></em>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<canvas id="doughnut-chart" width="200" height="200"></canvas>
+				</td>
+				<td>
+					<p id = "tdee"></p>
+					<em><p id = "tdeeDesc">TDEE is the total number of calories you burn each day considering your current exercise regimen. </p></em>
+					<p id = "bmr"></p>
+					<em><p id = "bmrDesc">BMR is the rate at which your body uses energy while at rest to keep vital functions going, such as breathing! </p></em>
+					
+				</td>
+			</tr>
+			<tr>
+				<td colspan = "2">
+					<em><p></p></em>
+					
+				</td>
+			</tr>
+		
+
+		</table>
+</div>
+<script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+<script type = "text/javascript">
+	"use strict";
+	let BMR;
+	let TDEE;
+	let email;
+	let totalprotein;
+	document.getElementById("emailNotification").style.visibility = "hidden";
+	document.getElementById("tdeeDesc").style.visibility = "hidden";
+	document.getElementById("bmrDesc").style.visibility = "hidden";
+	let calculate = function(){
+		document.getElementById("emailNotification").style.visibility = "visible";
+		let genderinput = document.getElementById("gender");
+		let gender = genderinput.options[genderinput.selectedIndex].value;
+		let age = document.getElementsByName("Age")[0].value;
+		let weight = document.getElementsByName("weight")[0].value;
+		let kgweight = weight / 2.2046;
+		let height1 = document.getElementsByName("Height1")[0].value;
+		let height2 = document.getElementsByName("Height2")[0].value;
+		let cmheight = 30.48*height1 + 2.54*height2;
+		let bodyFat = document.getElementsByName("bodyfat")[0].value;
+		let activityLevelInput = document.getElementById("activitylevel");
+		let activityLevel = activityLevelInput.options[activityLevelInput.selectedIndex].value;
+		email = document.getElementsByName("email")[0].value;
+		if(gender == "male"){
+			let fatKg = kgweight * (bodyFat/100);
+			let lbm = kgweight - fatKg;
+			BMR = Math.round(370 + (21.6 * lbm));
+			//BMR = Math.round((10*kgweight) + (6.25*cmheight) - (5*age) + 5);
+			//BMR = 66 + (13.7 * kgweight) + (5 * cmheight) - (6 * age);
+			//BMR = (cmheight * 6.25)+(kgweight*9.99)-(age*4.92)+5
+			switch(Number(activityLevel)){
+				case 1:
+					TDEE = Math.round(1.2 * BMR);
+					break;
+				case 2:
+					TDEE = Math.round(1.375 * BMR);
+					break;
+				case 3:
+					TDEE = Math.round(1.55 * BMR);
+					break;
+				case 4:
+					TDEE = Math.round(1.725 * BMR);
+					break;
+				case 5:
+					TDEE = Math.round(1.9 * BMR);
+					break;
+			}
+			evaluateMacros(height1, height2, gender)
+		}else if (gender == "female"){
+			//BMR = Math.round(655 + (9.6 * kgweight) + (1.8 * cmheight) - (4.7 * age));
+			//BMR = Math.round((10*kgweight) + (6.25*cmheight) - (5*age) - 161);
+			let fatKg = kgweight * (bodyFat/100);
+			let lbm = kgweight - fatKg;
+			BMR = Math.round(370 + (21.6 * lbm));
+			switch(Number(activityLevel)){
+				case 1:
+					TDEE = Math.round(1.2 * BMR);
+					break;
+				case 2:
+					TDEE = Math.round(1.375 * BMR);
+					break;
+				case 3:
+					TDEE = Math.round(1.55 * BMR);
+					break;
+				case 4:
+					TDEE = Math.round(1.725 * BMR);
+					break;
+				case 5:
+					TDEE = Math.round(1.9 * BMR);
+					break;
+			}
+			evaluateMacros(height1, height2, gender)
+			
+		
+		}else{
+			alert("Error");
+		}
+	};
+	let evaluateMacros = function(height1, height2, gender){
+		if(gender == "male"){
+			if (height1 >=6){
+				totalprotein = 	Math.round((50.5 + ((height2+12)*2.3))*1.2);
+			}
+			else if(height1 < 6){
+				totalprotein = 	Math.round((50.5 + (height2*2.3))*1.2);
+			}
+			let carbs = 20*4;
+			let totalCarbandProteinCalories = carbs + (totalprotein*4);
+			let minFatGramsTDEE = (TDEE - totalCarbandProteinCalories)/9;
+			let minFatGramsBMR = (BMR - totalCarbandProteinCalories)/9;
+			let targetCalories = Math.round((BMR + TDEE)/2);
+			let fatGrams = Math.round((targetCalories - totalCarbandProteinCalories)/9);
+			sendEmail(carbs,totalprotein,fatGrams, targetCalories,minFatGramsTDEE,minFatGramsBMR);
+			displaydata(carbs,totalprotein,fatGrams);
+			
+		}
+		else if(gender == "female"){
+			//let totalprotein = 	Math.round(45.5 + (height2*2.3));
+			if (height1 >=6){
+				totalprotein = 	Math.round((45.5 + ((height2+12)*2.3)));
+			}
+			else if(height1 < 6){
+				totalprotein = 	Math.round((45.5 + (height2*2.3)));
+			}
+			let carbs = 20*4;
+			let totalCarbandProteinCalories = carbs + (totalprotein*4);
+			let minFatGramsTDEE = (TDEE - totalCarbandProteinCalories)/9;
+			let minFatGramsBMR = (BMR - totalCarbandProteinCalories)/9;
+			let targetCalories = Math.round((BMR + TDEE)/2);
+			let fatGrams = Math.round((targetCalories - totalCarbandProteinCalories)/9);
+			sendEmail(carbs,totalprotein,fatGrams, targetCalories,minFatGramsTDEE,minFatGramsBMR);
+			displaydata(carbs,totalprotein,fatGrams);
+		
+		}else{
+			alert("Error");
+		}
+
+	};
+	let displaydata = function(carbs, totalprotein, fatGrams){
+		Chart.defaults.global.defaultFontColor = "#000000";
+		document.getElementById("tdee").innerHTML = "TDEE:"+TDEE;
+		document.getElementById("bmr").innerHTML = "BMR:" + BMR;
+		document.getElementById("tdeeDesc").style.visibility = "visible";
+		document.getElementById("bmrDesc").style.visibility = "visible";
+		new Chart(document.getElementById("doughnut-chart"), {
+		type: 'pie',
+		data: {
+		labels: ["Protein", "Carbs", "Fat"],
+		datasets: [
+			{
+			label: "Daily intake",
+			backgroundColor: ["#B3B6BF", "#83858C","#56575B"],
+			data: [totalprotein,20,fatGrams]
+		}
+      ]
+    },
+		options: {
+		responsive:false
+	}
+});
+};
+
+	let sendEmail = function(carbs,totalprotein,fatGrams, targetCalories, minFatGramsTDEE, minFatGramsBMR){
+		var templateParams = {
+			email:email,
+			protein:totalprotein,
+			fat:fatGrams,
+			calories:targetCalories,
+			TDEE:TDEE,
+			BMR:BMR
+		};
+		emailjs.send("", "", templateParams, "");
+	
+	
+	};
+	
+	let openBodyFat = function(){
+		window.open("https://turningthislifearound.files.wordpress.com/2015/01/body-fat-percentage-picture-men-women.jpg", "bodyFat", "width=500, height=500, left=700");
+	};
+	
+	
+</script>
+
+
+
+</body>
+</html>
